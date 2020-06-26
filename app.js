@@ -45,6 +45,10 @@ app.get('/cipher', (req, res) => {
   }
 
   const shifted = asciiArr.map(i => {
+    if(i === 32) {
+      return i;
+    }
+
     if((i + shift) > 90) {
       return (i + shift - 91) + 65
     }
