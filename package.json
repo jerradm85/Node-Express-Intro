@@ -2,15 +2,17 @@
   "name": "06-25_node-express-intro",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app",
+    "dev": "nodemon app"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "debug": "^4.1.1",
+    "express": "^4.17.1",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
