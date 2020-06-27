@@ -9,6 +9,7 @@ app.get('/', (req, res) => {
   res.send('Hello Express!')
 })
 
+//question 1
 app.get('/sum', (req, res) => {
 
   const a = Number(req.query.a);
@@ -29,17 +30,29 @@ app.get('/sum', (req, res) => {
 
 })
 
+//question 2
 app.get('/cipher', (req, res) => {
-
-  const text = req.query.text.toUpperCase();
+  //declare variables
+  const text = req.query.text.toUpperCase().split().map();
   const shift = Math.abs(Number(req.query.shift));
+  const asciiArr = [];
+  
+
+  //validation
+  if(!text){
+    return res.status(400).send("Must provide text input.");
+  }
+
+  if(!shift){
+    return res.status(400).send("Must provide shift value.");
+  }
 
   if (shift > 26) {
-    return res.send("Shift must be 26 or less.");
+    return res.status(400).send("Shift must be 26 or less.");
   }
-  // const charArray = text.split("");
-  const asciiArr = [];
+  
 
+  //logic
   for(let i=0; i < text.length; i++) {
     asciiArr.push(text[i].charCodeAt(0))
   }
@@ -57,16 +70,49 @@ app.get('/cipher', (req, res) => {
 
   const cipher = String.fromCharCode(...shifted);
 
-
-
-  // const asciiArr = charArray.map(i => {
-  //   charArray[i].charCodeAt(0);
-  // })
-
-  res.send([text, shift, asciiArr, shifted, cipher]);
+  res.status(200).send([text, cipher]);
 
 })
 
+//question 3
+app.get('/lotto', (req, res) => {
+  const numbers = req.query.numbers
+  const numbersArr = [];
+  let counter = 0;
+
+  if(numbers.length !== 6 || !numbers) {
+    "Must provide six different numbers between 1 and 20"
+  }
+
+  for(let i=0; i < 6; i++) {
+    const number = Math.floor(Math.random() * 20);
+    numbersArr.push(number);
+  }
+
+  const matches = numbers.filter(value => {
+    return numbersArr.includes(value);
+  })
+
+
+  // for(let i=0; i < numbers.length; i++) {
+  //   for(let j=0; j < numbersArr.length; j++) {
+  //     if(numbers[i] == numbersArr[j]) {
+  //       counter ++
+  //     }
+  //   }
+  // }
+
+  if(matches.length == 6) {
+    res.status(200).send("Wow! Unbelievable! You could have won the mega millions!")
+  }else if(matches.length == 5) {
+    res.status(200).send("Congratulations! You win $100!")
+  }else if(matches.length == 4) {
+    res.status(200).send("Congratulations, you win a free ticket") 
+  }else {
+    res.status(200).send("Sorry, you lose.")
+  }
+
+})
 
 
 
